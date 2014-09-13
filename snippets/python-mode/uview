@@ -1,0 +1,11 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: updateView
+# group: django
+# key: uview
+# binding: direct-keybinding
+# --
+class ${1:ClassName}View(LoginRequiredMixin, generic.UpdateView):
+
+    model = $2
+    form_class = $3
+    success_url = "$4"
