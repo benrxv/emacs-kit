@@ -20,7 +20,6 @@
 (global-set-key "\M-[1;5D"    'backward-word)    ; Ctrl+left    => backward word
 
 (use-package magit
-  :ensure
   :bind ("C-c g" . magit-status)
   :init (add-to-list 'load-path "~/.emacs.d/magit-1.2.0"))
 
