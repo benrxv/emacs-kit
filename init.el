@@ -19,6 +19,10 @@
 (global-set-key "\M-[1;5C"    'forward-word)      ; Ctrl+right   => forward word
 (global-set-key "\M-[1;5D"    'backward-word)    ; Ctrl+left    => backward word
 
+(setq auto-mode-alist
+      (cons '("\\.py$" . python-mode) auto-mode-alist))
+
+
 (use-package magit
   :bind ("C-c g" . magit-status)
   :init (add-to-list 'load-path "~/.emacs.d/magit-1.2.0"))
@@ -31,7 +35,8 @@
   :ensure
   :config (progn 
 	    (color-theme-initialize)
-	    (load-theme 'solarized-dark)))
+	    (load-theme 'misterioso))) 
+	    ;; (load-theme 'solarized-dark))) 
 	    
 (use-package ibuffer
   :ensure
@@ -59,3 +64,10 @@
 (use-package yasnippet
   :ensure
   :config (yas/global-mode 1))
+
+(use-package elpy
+  :ensure
+  :config (elpy-enable))
+
+(use-package flymake-cursor
+  :ensure)
