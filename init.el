@@ -1,10 +1,10 @@
-(package-initialize)
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(package-initialize)
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 ;; Change me to only do this in *scratch* buffer ;)
 (add-hook 'emacs-startup-hook
@@ -67,7 +67,43 @@
 
 (use-package elpy
   :ensure
-  :config (elpy-enable))
+  :idle (progn
+          (elpy-enable)
+          (elpy-use-ipython))
+  :config
+  ;; Monkey patch to not tell me which function I'm in always
+  (defun elpy-eldoc-documentation ()
+    "Return a call tip for the python call at point."
+    (elpy-rpc-get-calltip
+     (lambda (calltip)
+       (eldoc-message
+        (cond
+         ((not calltip)
+          (let ((current-defun (python-info-current-defun)))
+            (when current-defun
+              nil)))
+         ((stringp calltip)
+          calltip)
+         (t
+          (let ((name (cdr (assq 'name calltip)))
+                (index (cdr (assq 'index calltip)))
+                (params (cdr (assq 'params calltip))))
+            (when index
+              (setf (nth index params)
+                    (propertize (nth index params)
+                                'face
+                                'eldoc-highlight-function-argument)))
+            (format "%s(%s)"
+                    name
+                    (mapconcat #'identity params ", "))))))))
+    ;; Return the last message until we're done
+    eldoc-last-message))
 
 (use-package flymake-cursor
   :ensure)
+
+(use-package smooth-scrolling
+  :ensure
+  :config (setq smooth-scroll-margin 5
+                scroll-conservatively 9999
+                scroll-preserve-screen-position t))
