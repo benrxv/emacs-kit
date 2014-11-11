@@ -1,4 +1,5 @@
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (package-initialize)
 (setq custom-file "~/.emacs.d/custom.el")
@@ -33,7 +34,8 @@
   :ensure
   :config (progn 
 	    (color-theme-initialize)
-	    (load-theme 'misterioso))) 
+	    (load-theme 'misterioso)
+	    (set-cursor-color "#ffffff")))
 	    ;; (load-theme 'solarized-dark))) 
 	    
 (use-package ibuffer
