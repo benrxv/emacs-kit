@@ -1,3 +1,6 @@
+(when (>= emacs-major-version 24)
+  (require 'package))
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 
@@ -22,29 +25,21 @@
       (cons '("\\.py$" . python-mode) auto-mode-alist))
 
 (add-to-list 'load-path "~/.emacs.d/tern/emacs")
-;; (autoload 'tern-mode "tern.el" nil t)
-;; (add-hook 'js-mode-hook (lambda () (tern-mode t)))
-;; (eval-after-load 'tern
-;; 	  '(progn
-;; 	     (require 'tern-auto-complete)
-;; 	     (tern-ac-setup)))
-
-(global-auto-complete-mode t)
 
 (use-package tern
   :ensure
   :config (progn
-	  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-	  (require 'tern-auto-complete)))
+  	    (add-hook 'js2-mode-hook (lambda () (tern-mode t)))))
+;;	  (require 'tern-auto-complete)))
 
 (use-package tern-auto-complete
   :ensure
-  :config (tern-ac-setup))
-;;  :init (add-to-list 'ac-modes 'tern-mode))
+  :config (progn
+	    (global-auto-complete-mode t)
+	    (tern-ac-setup)))
 
 (use-package magit
-  :bind ("C-c g" . magit-status)
-  :init (add-to-list 'load-path "~/.emacs.d/magit-1.2.0"))
+  :bind ("C-c g" . magit-status))
 
 (use-package js2-mode
   :ensure
@@ -79,6 +74,9 @@
   :ensure)
 
 (use-package pony-mode
+  :ensure)
+
+(use-package yaml-mode
   :ensure)
 
 (use-package yasnippet
