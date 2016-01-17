@@ -21,6 +21,26 @@
 (setq auto-mode-alist
       (cons '("\\.py$" . python-mode) auto-mode-alist))
 
+(add-to-list 'load-path "~/.emacs.d/tern/emacs")
+;; (autoload 'tern-mode "tern.el" nil t)
+;; (add-hook 'js-mode-hook (lambda () (tern-mode t)))
+;; (eval-after-load 'tern
+;; 	  '(progn
+;; 	     (require 'tern-auto-complete)
+;; 	     (tern-ac-setup)))
+
+(global-auto-complete-mode t)
+
+(use-package tern
+  :ensure
+  :config (progn
+	  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+	  (require 'tern-auto-complete)))
+
+(use-package tern-auto-complete
+  :ensure
+  :config (tern-ac-setup))
+;;  :init (add-to-list 'ac-modes 'tern-mode))
 
 (use-package magit
   :bind ("C-c g" . magit-status)
