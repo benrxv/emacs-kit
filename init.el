@@ -107,3 +107,6 @@
   :config (setq smooth-scroll-margin 5
                 scroll-conservatively 9999
                 scroll-preserve-screen-position t))
+
+(use-package tramp
+  :ensure)
