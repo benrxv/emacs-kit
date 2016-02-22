@@ -85,10 +85,11 @@
 
 (use-package elpy
   :ensure
-  :idle (progn
-          (elpy-enable)
-          (elpy-use-ipython))
-  :config
+  :init (with-eval-after-load
+	    (progn
+	      (elpy-enable)
+	      (elpy-use-ipython)))
+	  
   ;; Monkey patch to not tell me which function I'm in always
   (defun elpy-eldoc-documentation ()
     "Return a call tip for the python call at point."
