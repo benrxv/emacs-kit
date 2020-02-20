@@ -14,7 +14,7 @@
  '(js2-bounce-indent-p t)
  '(package-selected-packages
    (quote
-    (smooth-scrolling flymake-cursor elpy yasnippet yaml-mode pony-mode django-mode color-theme js2-mode tern-auto-complete tern use-package))))
+    (jade yaml-mode use-package tern-auto-complete smooth-scrolling pony-mode magit js2-mode flymake-cursor elpy django-mode color-theme beacon))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

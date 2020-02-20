@@ -37,19 +37,8 @@
 (setq auto-mode-alist
       (cons '("\\.py$" . python-mode) auto-mode-alist))
 
-(add-to-list 'load-path "~/.emacs.d/tern/emacs")
-
-(use-package tern
-  :ensure
-  :config (progn
-  	    (add-hook 'js2-mode-hook (lambda () (tern-mode t)))))
-;;	  (require 'tern-auto-complete)))
-
-(use-package tern-auto-complete
-  :ensure
-  :config (progn
-	    (global-auto-complete-mode t)
-	    (tern-ac-setup)))
+(global-prettify-symbols-mode +1)
+(setq prettify-symbols-unprettify-at-point 'right-edge)
 
 (use-package magit
   :bind ("C-c g" . magit-status))
@@ -57,6 +46,9 @@
 (use-package js2-mode
   :ensure
   :init (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (push '("function" . ?ƒ) prettify-symbols-alist)))
 
 (use-package color-theme
   :ensure
@@ -100,8 +92,7 @@
   :ensure
   :init (with-eval-after-load
 	    (progn
-	      (elpy-enable)
-	      (elpy-use-ipython)))
+	      (elpy-enable)))
 	  
   ;; Monkey patch to not tell me which function I'm in always
   (defun elpy-eldoc-documentation ()
@@ -129,7 +120,12 @@
                     name
                     (mapconcat #'identity params ", "))))))))
     ;; Return the last message until we're done
-    eldoc-last-message))
+    eldoc-last-message)
+  :config
+  (when (executable-find "ipython")
+    (setq python-shell-interpreter "ipython"
+	            python-shell-interpreter-args "-i --simple-prompt"))
+  )
 
 (use-package flymake-cursor
   :ensure)
@@ -142,3 +138,19 @@
 
 (use-package tramp
   :ensure)
+
+;; (use-package jade
+;;   :ensure)
+
+(use-package beacon
+  :ensure
+  :config
+  (beacon-mode 1)
+  (setq beacon-blink-delay 0.2)
+  (setq beacon-blink-duration 0.2)
+  (setq beacon-blink-when-point-moves 7)
+  ;; (setq beacon-blink-when-window-changes nil)
+  ;; (setq beacon-blink-when-window-scrolls nil)
+  (setq beacon-color "white")
+  (setq beacon-push-mark 5)
+  (setq beacon-size 25))
